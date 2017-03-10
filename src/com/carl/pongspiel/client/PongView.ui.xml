@@ -1,0 +1,64 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:b="urn:import:org.gwtbootstrap3.client.ui"
+	xmlns:bg="urn:import:org.gwtbootstrap3.client.ui.gwt" xmlns:bh="urn:import:org.gwtbootstrap3.client.ui.html">
+
+	<ui:style>
+	.center {
+		margin-top:50px;
+    	text-align:center;
+	}
+	.distance{
+		margin-top:20px;
+		color:white;
+	}
+	</ui:style>
+
+	<bh:Div visible="true" ui:field="start">
+		<b:Form addStyleNames="{style.center}">
+
+			<b:Image type="ROUNDED" url="img/pongStart.png" />
+
+			<b:Form addStyleNames="{style.distance}">
+				<b:TextBox placeholder="Username" b:id="userName"
+					ui:field="usernameField" />
+			</b:Form>
+
+			<b:Form addStyleNames="{style.distance}">
+				<b:Input type="PASSWORD" placeholder="Passwort" b:id="passwort"
+					ui:field="passwordField" />
+			</b:Form>
+
+			<b:Form addStyleNames="{style.distance}">
+				<b:FormGroup>
+					<!-- <b:FormLabel for="veryEasy">Sehr leicht</b:FormLabel> -->
+					<b:RadioButton name="difficulty" b:id="veryEasy"
+						text="Sehr leicht" formValue="veryEasy" ui:field="radioButtonVeryEasy" />
+					<b:RadioButton name="difficulty" b:id="easy" text="Leicht"
+						formValue="easy" ui:field="radioButtonEasy" />
+					<b:RadioButton name="difficulty" b:id="medium" text="Mittel"
+						formValue="medium" ui:field="radioButtonMedium" />
+					<b:RadioButton name="difficulty" b:id="heavy" text="Schwer"
+						formValue="heavy" ui:field="radioButtonHeavy" />
+					<b:RadioButton name="difficulty" b:id="veryHeavy"
+						text="Sehr Schwer" formValue="veryHeavy" ui:field="radioButtonVeryHeavy" />
+				</b:FormGroup>
+			</b:Form>
+
+			<b:FormGroup>
+				<!-- <b:FormLabel for="veryEasy">Sehr leicht</b:FormLabel> -->
+
+			</b:FormGroup>
+
+			<b:Form addStyleNames="{style.distance}">
+				<b:Button ui:field="sendButton">Senden</b:Button>
+			</b:Form>
+
+		</b:Form>
+		<bh:Div visible="false" ui:field="gameField">
+			<!-- SPIELFELD -->
+		</bh:Div>
+	</bh:Div>
+
+
+</ui:UiBinder>
