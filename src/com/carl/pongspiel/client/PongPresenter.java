@@ -3,6 +3,7 @@ package com.carl.pongspiel.client;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.RootPanel;
 
 /**
@@ -22,7 +23,8 @@ public class PongPresenter implements PongView.Presenter, EntryPoint{
 		pongView = new PongViewImpl();
 		pongView.setPresenter(this);
 		
-		RootPanel.get("container").add(pongView.asWidget());
+		
+		go(RootPanel.get("container"));
 		
 		
 //		HTMLPanel container = HTMLPanel.wrap(Document.get().getElementById("container"));
@@ -35,6 +37,11 @@ public class PongPresenter implements PongView.Presenter, EntryPoint{
 //		container.add(testText);
 	}
 
+	public void go(HasWidgets container) {
+		container.clear();
+		container.add(pongView.asWidget());
+	}
+	
 	@Override
 	public void checkUser(String username, String password) {
 		UserService.Util.getInstance().checkUser(username, password, new AsyncCallback<Boolean>() {
