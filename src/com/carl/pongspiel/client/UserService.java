@@ -21,6 +21,12 @@ public interface UserService extends RemoteService {
 		}
 	}
 	
-	Boolean checkUser(String username, String password) ;
+	Boolean checkUserAcc(String username, String password) ;
+	
+	Boolean checkNewUsername(String username);
+	
+	Boolean createNewUser(String username, String password);
+	
+	Integer getUserHighscore(String username) ;
 	
 }

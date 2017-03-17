@@ -1,3 +1,5 @@
 *.gwt.rpc
 **/gwt-unitCache-*
 **/classes/*
+war/database/HighscoreDatabase.txt
+war/database/LoginDatabase.txt

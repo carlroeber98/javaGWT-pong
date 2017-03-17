@@ -7,48 +7,120 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 @SuppressWarnings("serial")
 public class ServiceImpl extends RemoteServiceServlet implements UserService {
-
-	@Override
-	public Boolean checkUser(String username, String password) {
-		String included = "";
+	
+	public Boolean checkUserAcc(String username, String password) {
 		try {
-			included = searchUser(username, password);
+			return accessUserAcc(username, password);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-		if (included.equals("newUser")){
 			return false;
 		}
-		else{
-		return true;
+	}
+	
+	public Boolean checkNewUsername(String username){
+		try {
+			return checkUsername(username);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
 		}
 	}
 
-	private void addUser(String username, String password) throws IOException {
-		File file = new File("database/database.txt");
+	public Boolean createNewUser(String username, String password){
+		try {
+			return addNewUser(username, password);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public Integer getUserHighscore(String username){
+		try {
+			return getHighscore(username);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	private Boolean checkUsername(String username) throws IOException{
+		FileReader fileR = new FileReader("database/LoginDatabase.txt");
+		BufferedReader bufR = new BufferedReader(fileR);
+		String line;
+		while ((line = bufR.readLine()) != null && !line.isEmpty()) {
+			if (line.contains(";")) {
+				String[] lineElements = line.split(";");
+				String usernameTXT = lineElements[0];
+				if (usernameTXT.equals(username)){
+					bufR.close();
+					System.out.println("LoginDatabase: User already exists.");
+					return true;
+				}
+			}
+		}
+		bufR.close();
+		System.out.println("LoginDatabase: User not found.");
+		return false;
+	}
+	
+	private Boolean addNewUser(String username, String password) throws IOException {
+		File file = new File("database/Logindatabase.txt");
 		Writer writer = new FileWriter(file, true);
 		writer.write(username + ";" + password);
 		writer.write(System.getProperty("line.separator"));
 		writer.flush();
 		writer.close();
-	
+		System.out.println("LoginDatabase: New user added.");
+		return true;
 	}
 
-	private String searchUser(String username, String password) throws IOException{
-//		FileReader fileR = new FileReader("database/database.txt");
-//		BufferedReader bufR = new BufferedReader(fileR);
-//		while(bufR.readLine() != null){
-//			String[] line = bufR.readLine().split(";");
-//			String usernameTXT = line[0];
-//			String passwordTXT = line[1];
-//			if (usernameTXT.equals(username) && passwordTXT.equals(password)){
-//				bufR.close();
-//				return "oldUser";
-//			}
-//		}
-//		bufR.close();
-		addUser(username, password);
-		return "newUser";
+	private Boolean accessUserAcc(String username, String password) throws IOException{
+		FileReader fileR = new FileReader("database/LoginDatabase.txt");
+		BufferedReader bufR = new BufferedReader(fileR);
+		String line;
+		while ((line = bufR.readLine()) != null && !line.isEmpty()) {
+			if (line.contains(";")) {
+				String[] lineElements = line.split(";");
+				String usernameTXT = lineElements[0];
+				String passwordTXT = lineElements[1];
+				if (usernameTXT.equals(username)){
+					if (passwordTXT.equals(password)){
+						bufR.close();
+						System.out.println("LoginDatabase: User found. Password correct.");
+						return true;
+					}
+					else{
+						bufR.close();
+						System.out.println("LoginDatabase: User found. Password incorrect.");
+						return false;
+						}
+					}
+				}
+			}
+		bufR.close();
+		System.out.println("LoginDatabase: User not found.");
+		return false;
+	}
+	
+	private Integer getHighscore(String username)  throws IOException{
+		FileReader fileR = new FileReader("database/HighscoreDatabase.txt");
+		BufferedReader bufR = new BufferedReader(fileR);
+		String line;
+		while ((line = bufR.readLine()) != null && !line.isEmpty()) {
+			if (line.contains(";")) {
+				String[] lineElements = line.split(";");
+				String usernameTXT = lineElements[0];
+				Integer highscoreTXT = Integer.parseInt(lineElements[1]);
+				if (usernameTXT.equals(username)){
+					bufR.close();
+					System.out.println("HighscoreDatabase: User found. Highscore loaded.");
+					return highscoreTXT;
+				}
+			}
+		}
+		bufR.close();
+		System.out.println("HighscoreDatabase: User not found.");
+		return 0;
 	}
 }
-	
