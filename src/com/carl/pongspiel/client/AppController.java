@@ -31,7 +31,6 @@ public class AppController implements EntryPoint {
 	public void onModuleLoad() {
 		initPongView();
 		initLoginView();
-		loginPresenter.go(RootPanel.get("container"));
 	}
 
 	public void buildGamePong(Difficulty difficulty) {
@@ -42,6 +41,7 @@ public class AppController implements EntryPoint {
 	public void initLoginView(){
 		loginView = new LoginViewImpl();
 		loginPresenter = new LoginPresenter(loginView, this);
+		loginPresenter.go(RootPanel.get("container"));
 	}
 	
 	public void initPongView(){

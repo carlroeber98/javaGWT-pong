@@ -42,6 +42,7 @@ public class PongViewImpl extends Composite implements PongView {
 	public PongViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 		Window.setTitle("Pong");
+		initClickable();
 	}
 	
 	/**
@@ -221,6 +222,11 @@ public class PongViewImpl extends Composite implements PongView {
 		if (ball.getElement().getOffsetTop() + 5 - batBot.getOffsetHeight() / 2 > 0 && ball.getElement().getOffsetTop() - 5 + batBot.getOffsetHeight() / 2 < gameFieldHeight){
 			batBot.getElement().getStyle().setTop(ball.getElement().getOffsetTop() - batBot.getOffsetHeight() / 2, Unit.PX);
 		}
+	}
+	
+	public void initClickable(){
+		startButton.getElement().addClassName("clickable");
+		logoutButton.getElement().addClassName("clickable");
 	}
 
 }

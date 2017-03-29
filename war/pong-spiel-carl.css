@@ -25,6 +25,10 @@
 	text-allign: center;
 }
 
+.clickable {
+	cursor: pointer;
+}
+
 .newUser {
 	font-weight: bold;
 	font-size: x-large;

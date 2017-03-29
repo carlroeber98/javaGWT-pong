@@ -46,6 +46,7 @@ public class LoginViewImpl extends Composite implements LoginView {
 		initWidget(uiBinder.createAndBindUi(this));
 		Window.setTitle("Login");
 		initDifficultyButtons();
+		initClickable();
 	}
 	
 	@UiField
@@ -94,6 +95,7 @@ public class LoginViewImpl extends Composite implements LoginView {
 			RadioButton radioButton = new RadioButton("difficulty");
 			radioButton.setText(difficulty.getName());
 			radioButton.setFormValue(difficulty.name());
+			radioButton.getElement().addClassName("clickable");
 			if(difficulty.equals(Difficulty.MEDIUM)){
 				radioButton.setValue(true);
 			}
@@ -210,6 +212,10 @@ public class LoginViewImpl extends Composite implements LoginView {
 		t.schedule(2000);
 		waitingLayout.setVisible(true);
 	}
-	
+
+	private void initClickable() {
+		sendButton.getElement().addClassName("clickable");
+		newUserLabel.getElement().addClassName("clickable");
+	}
 	
 }
