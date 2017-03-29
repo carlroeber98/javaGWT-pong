@@ -6,9 +6,9 @@
 	<ui:style>
 		
 	.squareborder {
-		margin: auto;
-		background: green;
 		border: 1px solid #FFFFFF;
+		/*display:flex;*/
+		margin:auto;
 	}
 	
 	.ball {
@@ -21,93 +21,31 @@
 		position: absolute;
 	}
 	
-	.schlaegerPlayer {
+	.schlaeger-player {
 		background: #FFFFFF;
 		height: 75px;
 		width: 8px;
 		position: absolute;
 	}
 	
-	.schlaegerBot {
+	.schlaeger-bot {
 		background: #FFFFFF;
 		height: 75px;
 		width: 8px;
 		position: absolute;
-	}
-	
-	.radioButtonGroup>label>span{
-		font-weight: bold;
-		font-size: 20px;
-		color: white;
-	}
-	
-	.radioButtonGroup>label:first-child>span{
-		color: #2ECCFA;
-	}
-	
-	.radioButtonGroup>label:last-child>span{
-		color:#FF0000;
 	}
 	
 	</ui:style>
-	
 	<bh:Div>
-		<bh:Div addStyleNames="center" visible="true"
-			ui:field="userPreferences">
-
-			<b:Image type="ROUNDED" url="img/pongStart.png" />
-
-			<bh:Div addStyleNames="distance">
-				<b:TextBox placeholder="Username" b:id="userName"
-					ui:field="usernameField" />
-			</bh:Div>
-
-			<bh:Div addStyleNames="distance">
-				<b:Input type="PASSWORD" placeholder="Passwort" b:id="passwort"
-					ui:field="passwordField" />
-			</bh:Div>
-			
-			<bh:Div addStyleNames="distance">
-				<b:Label addStyleNames="newUser" ui:field="newUserLabel" visible="true">Neuen Nutzer erstellen</b:Label>
-				<bh:Div ui:field="passwordConfirmFieldDiv" visible="false">
-					<b:Input type="PASSWORD" placeholder="Passwort bestätigen" b:id="passwortConfirm" ui:field="passwordConfirmField"/>
-				</bh:Div>
-				<bh:Div addStyleNames="distance">
-					<b:Label addStyleNames="login" ui:field="LoginUserLabel" visible="false"> Oder mit bereits vorhandenem Benutzerkonto anmelden</b:Label>
-				</bh:Div>
-			</bh:Div>
-
-			<bh:Div addStyleNames="distance">
-				<b:ButtonGroup ui:field="difficultyButtonGroup" addStyleNames="{style.radioButtonGroup}" />
-			</bh:Div>
-
-			<bh:Div addStyleNames="distance">
-				<b:Button ui:field="sendButton" addStyleNames="button">Senden</b:Button>
-			</bh:Div>
-			<bh:Div addStyleNames="distance" ui:field="userMessageDiv" visible="false">
-			<b:Label addStyleNames="userMessage" ui:field="userMessageLabel"></b:Label>
-			</bh:Div>
-		</bh:Div>
-
-		<bh:Div addStyleNames="center" ui:field="waitingLayout" visible="false">
-			<b:Label addStyleNames="welcome" ui:field="welcomeLabel"></b:Label>
-			<bh:Div addStyleNames="spinner">
-				<bh:Div addStyleNames="bounce1" />
-				<bh:Div addStyleNames="bounce2" />
-				<bh:Div />
-			</bh:Div>
-		</bh:Div>
-
-		<bh:Div ui:field="game" addStyleNames="center" visible="false">
-			<b:Label addStyleNames="points" ui:field="pointLabel">0 : 0</b:Label>
-			<bh:Div ui:field="gameField" addStyleNames="{style.squareborder}">
-				<bh:Div ui:field="batPlayer" addStyleNames="{style.schlaegerPlayer}" />
+		<bh:Div ui:field="game" addStyleNames="center" >
+			<b:Label addStyleNames="points" ui:field="pointsLabel">0 : 0</b:Label>
+			<bh:Div ui:field="gameField" addStyleNames="{style.squareborder} relative">
+				<bh:Div ui:field="batPlayer" addStyleNames="{style.schlaeger-player}" />
 				<bh:Div ui:field="ball" addStyleNames="{style.ball}" />
-				<bh:Div ui:field="batBot" addStyleNames="{style.schlaegerBot}" />
+				<bh:Div ui:field="batBot" addStyleNames="{style.schlaeger-bot}" />
 			</bh:Div>
 			<b:Button ui:field="startButton" addStyleNames="button">Starten</b:Button>
+			<b:Button ui:field="logoutButton" addStyleNames="button">Logout</b:Button>
 		</bh:Div>
-
 	</bh:Div>
-
 </ui:UiBinder>

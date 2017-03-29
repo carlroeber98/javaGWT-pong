@@ -1,6 +1,8 @@
 package com.carl.pongspiel.shared.model;
 
-public enum PlayerType {
+import com.google.gwt.user.client.rpc.IsSerializable;
+
+public enum PlayerType implements IsSerializable {
 		PLAYER,
 		BOT
 }

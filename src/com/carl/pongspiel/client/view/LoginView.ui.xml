@@ -1,0 +1,72 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:b="urn:import:org.gwtbootstrap3.client.ui"
+	xmlns:bg="urn:import:org.gwtbootstrap3.client.ui.gwt" xmlns:bh="urn:import:org.gwtbootstrap3.client.ui.html">
+
+	<ui:style>
+	.radioButtonGroup>label>span{
+		font-weight: bold;
+		font-size: 20px;
+		color: white;
+	}
+	
+	.radioButtonGroup>label:first-child>span{
+		color: #2ECCFA;
+	}
+	
+	.radioButtonGroup>label:last-child>span{
+		color:#FF0000;
+	}
+	
+	</ui:style>
+	
+	<bh:Div>
+		<bh:Div addStyleNames="center" visible="true"
+			ui:field="userPreferences">
+
+			<b:Image type="ROUNDED" url="img/pongStart.png" />
+
+			<bh:Div addStyleNames="distance">
+				<b:TextBox placeholder="Username" b:id="userName"
+					ui:field="usernameField" />
+			</bh:Div>
+
+			<bh:Div addStyleNames="distance">
+				<b:Input type="PASSWORD" placeholder="Passwort" b:id="passwort"
+					ui:field="passwordField" />
+			</bh:Div>
+			
+			<bh:Div addStyleNames="distance">
+				<b:Label addStyleNames="newUser" ui:field="newUserLabel" visible="true">Neuen Nutzer erstellen</b:Label>
+				<bh:Div ui:field="passwordConfirmFieldDiv" visible="false">
+					<b:Input type="PASSWORD" placeholder="Passwort bestätigen" b:id="passwortConfirm" ui:field="passwordConfirmField"/>
+				</bh:Div>
+				<bh:Div addStyleNames="distance">
+					<b:Label addStyleNames="login" ui:field="LoginUserLabel" visible="false">Oder mit bereits vorhandenem Benutzerkonto anmelden</b:Label>
+				</bh:Div>
+			</bh:Div>
+
+			<bh:Div addStyleNames="distance">
+				<b:ButtonGroup ui:field="difficultyButtonGroup" addStyleNames="{style.radioButtonGroup}" />
+			</bh:Div>
+
+			<bh:Div addStyleNames="distance">
+				<b:Button ui:field="sendButton" addStyleNames="button">Senden</b:Button>
+			</bh:Div>
+			<bh:Div addStyleNames="distance" ui:field="userMessageDiv" visible="false">
+			<b:Label addStyleNames="userMessage" ui:field="userMessageLabel"></b:Label>
+			</bh:Div>
+		</bh:Div>
+
+		<bh:Div addStyleNames="center" ui:field="waitingLayout" visible="false">
+			<b:Label addStyleNames="welcome" ui:field="welcomeLabel"></b:Label>
+			<bh:Div addStyleNames="spinner">
+				<bh:Div addStyleNames="bounce1" />
+				<bh:Div addStyleNames="bounce2" />
+				<bh:Div />
+			</bh:Div>
+		</bh:Div>
+
+	</bh:Div>
+
+</ui:UiBinder>

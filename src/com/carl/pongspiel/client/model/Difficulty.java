@@ -37,7 +37,7 @@ public enum Difficulty {
 		}	
 		@Override
 		public int getballSpeed() {
-			return 15;
+			return 10;
 		}
 		@Override
 		public String getName() {
@@ -51,7 +51,7 @@ public enum Difficulty {
 		}
 		@Override
 		public int getballSpeed() {
-			return 10;
+			return 5;
 		}
 		@Override
 		public String getName() {
@@ -65,7 +65,7 @@ public enum Difficulty {
 		}
 		@Override
 		public int getballSpeed() {
-			return 5;
+			return 1;
 		}
 		@Override
 		public String getName() {
