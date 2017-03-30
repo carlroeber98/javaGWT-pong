@@ -4,7 +4,7 @@ import java.util.Random;
 
 import com.carl.pongspiel.client.AppController;
 import com.carl.pongspiel.client.UserService;
-import com.carl.pongspiel.client.model.Difficulty;
+import com.carl.pongspiel.client.ui.GamePreferences;
 import com.carl.pongspiel.client.view.PongView;
 import com.carl.pongspiel.shared.model.PlayerType;
 import com.carl.pongspiel.shared.model.UserPoints;
@@ -28,10 +28,8 @@ public class PongPresenter implements PongView.Presenter {
 		
 		pongView.setPresenter(this);
 		this.pongView = pongView;
-		
 	}
 	
-
 	public void go(RootPanel container) {
 		container.clear();
 		container.add(pongView.asWidget());
@@ -49,12 +47,12 @@ public class PongPresenter implements PongView.Presenter {
 	/**
 	 * ->setPoints, addKeyHandylers, initialize gameField with width and height
 	 */
-	public void buildGamePong(int gameFieldWidth, int gameFieldHeight, int gameFieldBorder, Difficulty difficulty) {
+	public void buildGamePong(GamePreferences gamePreferences) {
 		pongView.setPoints(pointsPlayer.getPoints(), pointsBot.getPoints());
 		pongView.addKeyHandlers();
-		ballSpeed = difficulty.getballSpeed();
-		pongView.setbatSpeed(difficulty.getbatSpeed());
-		pongView.buildGameField(gameFieldWidth, gameFieldHeight, gameFieldBorder);
+		ballSpeed = gamePreferences.getDifficulty().getballSpeed();
+		pongView.setbatSpeed( gamePreferences.getDifficulty().getbatSpeed());
+		pongView.buildGameField(gamePreferences);
 	}
 	
 	/**
@@ -62,9 +60,10 @@ public class PongPresenter implements PongView.Presenter {
 	 */
 	public void startGame() {
 		pongView.setStartButtonVisible(false);
+		pongView.setBreakButtonVisible(true);
 		
-		while (randomXDirection == 0 && randomYDirection == 0)
-			getRandomDirections(-2, 2);
+		while (randomXDirection == 0 && randomYDirection == 0 || randomXDirection == 0)
+			getRandomDirections(-1, 1);
 		
 		pongView.moveBall(randomXDirection, randomYDirection, ballSpeed);
 }
@@ -94,8 +93,9 @@ public class PongPresenter implements PongView.Presenter {
 			if (pointsBot.getHighscrore() < pointsBot.getPoints()){
 				saveHighscore(pointsBot);
 			}
-			appController.onModuleLoad();
+			appController.initLoginView();
 		}
+		pongView.setBreakButtonVisible(false);
 		pongView.setStartButtonVisible(true);
 	}
 	
@@ -147,9 +147,9 @@ public class PongPresenter implements PongView.Presenter {
 		});
 	}
 
-
 	@Override
 	public void logout() {
+		appController.setNewView(true);
 		appController.initLoginView();
 	}
 	

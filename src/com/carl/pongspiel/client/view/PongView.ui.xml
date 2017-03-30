@@ -44,6 +44,7 @@
 				<bh:Div ui:field="ball" addStyleNames="{style.ball}" />
 				<bh:Div ui:field="batBot" addStyleNames="{style.schlaeger-bot}" />
 			</bh:Div>
+			<b:Button ui:field="breakButton" visible="false" addStyleNames="button">Pause</b:Button>
 			<b:Button ui:field="startButton" addStyleNames="button">Starten</b:Button>
 			<b:Button ui:field="logoutButton" addStyleNames="button">Logout</b:Button>
 		</bh:Div>

@@ -1,8 +1,12 @@
 package com.carl.pongspiel.client.ui;
 
 import com.carl.pongspiel.client.model.Color;
+import com.carl.pongspiel.client.model.Difficulty;
 
 public class GamePreferences {
+	private Color labelPointsColor;
+	private Color buttonBackgroundColor;
+	private Color buttonFontColor;
 	private int gameFieldWidth;
 	private int gameFieldHeight;
 	private int gameFieldBorder;
@@ -14,11 +18,12 @@ public class GamePreferences {
 	private Color batPlayer1Color;
 	private int batPlayer2Width;
 	private int batPlayer2Height;
-	private int batPlayer2PositionLeft;
+	private int batPlayer2PositionRight;
 	private Color batPlayer2Color;
 	private int ballWidth;
 	private int ballHeight;
 	private Color ballColor;
+	private Difficulty difficulty;
 	
 	public int getGameFieldWidth() {
 		return gameFieldWidth;
@@ -86,11 +91,11 @@ public class GamePreferences {
 	public void setBatPlayer2Height(int batPlayer2Height) {
 		this.batPlayer2Height = batPlayer2Height;
 	}
-	public int getBatPlayer2PositionLeft() {
-		return batPlayer2PositionLeft;
+	public int getBatPlayer2PositionRight() {
+		return batPlayer2PositionRight;
 	}
-	public void setBatPlayer2PositionLeft(int batPlayer2PositionLeft) {
-		this.batPlayer2PositionLeft = batPlayer2PositionLeft;
+	public void setBatPlayer2PositionRight(int batPlayer2PositionRight) {
+		this.batPlayer2PositionRight = batPlayer2PositionRight;
 	}
 	public Color getBatPlayer2Color() {
 		return batPlayer2Color;
@@ -115,5 +120,29 @@ public class GamePreferences {
 	}
 	public void setBallColor(Color ballColor) {
 		this.ballColor = ballColor;
+	}
+	public Difficulty getDifficulty() {
+		return difficulty;
+	}
+	public void setDifficulty(Difficulty difficulty) {
+		this.difficulty = difficulty;
+	}
+	public Color getLabelPointsColor() {
+		return labelPointsColor;
+	}
+	public void setLabelPointsColor(Color labelPointsColor) {
+		this.labelPointsColor = labelPointsColor;
+	}
+	public Color getButtonBackgroundColor() {
+		return buttonBackgroundColor;
+	}
+	public void setButtonBackgroundColor(Color buttonBackgroundColor) {
+		this.buttonBackgroundColor = buttonBackgroundColor;
+	}
+	public Color getButtonFontColor() {
+		return buttonFontColor;
+	}
+	public void setButtonFontColor(Color buttonFontColor) {
+		this.buttonFontColor = buttonFontColor;
 	}
 }

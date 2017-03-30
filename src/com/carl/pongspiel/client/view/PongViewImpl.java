@@ -1,9 +1,11 @@
 package com.carl.pongspiel.client.view;
 
 import org.gwtbootstrap3.client.ui.Button;
+import org.gwtbootstrap3.client.ui.Label;
 import org.gwtbootstrap3.client.ui.html.Div;
 
 import com.carl.pongspiel.client.presenter.PongPresenter;
+import com.carl.pongspiel.client.ui.GamePreferences;
 import com.carl.pongspiel.client.ui.Position;
 import com.carl.pongspiel.shared.model.PlayerType;
 import com.google.gwt.core.client.GWT;
@@ -18,7 +20,6 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -57,12 +58,16 @@ public class PongViewImpl extends Composite implements PongView {
 	private Position batBotPosition;
 	private Integer gameFieldWidth;
 	private Integer gameFieldHeight;
+	private Timer timer;
 
 	/**
 	 * Ui-Fields
 	 */
 	@UiField
 	Button startButton;
+	
+	@UiField
+	Button breakButton;
 
 	@UiField
 	Div gameField;
@@ -71,7 +76,7 @@ public class PongViewImpl extends Composite implements PongView {
 	Widget game;
 
 	@UiField
-	HasText pointsLabel;
+	Label pointsLabel;
 
 	@UiField
 	Widget ball;
@@ -95,7 +100,19 @@ public class PongViewImpl extends Composite implements PongView {
 	
 	@UiHandler("logoutButton")
 	public void onlogoutButtonClicked(ClickEvent e) {
+		timer.cancel();
 		presenter.logout();
+	}
+	
+	@UiHandler("breakButton")
+	public void onBreakButtonClicked(ClickEvent e) {
+//		try {
+//			timer.wait();
+//			breakButton.setVisible(false);
+//			startButton.setVisible(true);
+//		} catch (InterruptedException e1) {
+//			e1.printStackTrace();
+//		}
 	}
 	
 	public void addKeyHandlers() {
@@ -103,7 +120,6 @@ public class PongViewImpl extends Composite implements PongView {
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
 				if (event.isUpArrow()) {
-					GWT.log(batPlayer.getElement().getOffsetTop() - batSpeed + ", " + gameField.getElement().getOffsetTop());
 					if (batPlayer.getElement().getOffsetTop() - batSpeed >  0) {
 						batPlayer.getElement().getStyle().setTop(batPlayer.getElement().getOffsetTop() - batSpeed, Unit.PX);
 					}
@@ -117,7 +133,7 @@ public class PongViewImpl extends Composite implements PongView {
 					}
 					if (batPlayer.getElement().getOffsetTop() + batSpeed > gameFieldHeight - batPlayer.getOffsetHeight() + gameFieldBorder
 							|| batPlayer.getElement().getOffsetTop() + batSpeed == gameFieldHeight - batPlayer.getOffsetHeight() + gameFieldBorder) {
-						batPlayer.getElement().getStyle().setTop(gameFieldHeight - batPlayer.getOffsetHeight() + gameFieldBorder, Unit.PX);
+						batPlayer.getElement().getStyle().setTop(gameFieldHeight - batPlayer.getOffsetHeight(), Unit.PX);
 					}
 				}
 			}
@@ -125,23 +141,46 @@ public class PongViewImpl extends Composite implements PongView {
 	}
 
 	
-	public void buildGameField(int width, int height, int border) {
-		gameFieldWidth = width;
-		gameFieldHeight = height;
-		gameFieldBorder = border;
+	public void buildGameField(GamePreferences gamePreferences) {
+		pointsLabel.setColor(gamePreferences.getLabelPointsColor().getColor());
+		startButton.getElement().getStyle().setBackgroundColor(gamePreferences.getButtonBackgroundColor().getColor());
+		logoutButton.getElement().getStyle().setBackgroundColor(gamePreferences.getButtonBackgroundColor().getColor());
+		startButton.setColor(gamePreferences.getButtonFontColor().getColor());
+		logoutButton.setColor(gamePreferences.getButtonFontColor().getColor());
+		
+		gameFieldWidth = gamePreferences.getGameFieldWidth();
+		gameFieldHeight = gamePreferences.getGameFieldHeight();
+		gameFieldBorder = gamePreferences.getGameFieldBorder();
 		gameField.getElement().getStyle().setHeight(gameFieldHeight, Unit.PX);
 		gameField.getElement().getStyle().setWidth(gameFieldWidth, Unit.PX);
 		gameField.getElement().getStyle().setBorderWidth(gameFieldBorder, Unit.PX);
-		initGameFieldPositions();
+		
+		gameField.getElement().getStyle().setBackgroundColor(gamePreferences.getGameFieldBackgroundColor().getColor());
+		gameField.getElement().getStyle().setBorderColor(gamePreferences.getGameFieldBorderColor().getColor());
+		
+		ball.getElement().getStyle().setWidth(gamePreferences.getBallWidth(), Unit.PX);
+		ball.getElement().getStyle().setHeight(gamePreferences.getBallHeight(), Unit.PX);
+		ball.getElement().getStyle().setBackgroundColor(gamePreferences.getBallColor().getColor());
+		
+		batPlayer.getElement().getStyle().setWidth(gamePreferences.getBatPlayer1Width(), Unit.PX);
+		batPlayer.getElement().getStyle().setHeight(gamePreferences.getBatPlayer1Height(), Unit.PX);
+		batPlayer.getElement().getStyle().setBackgroundColor(gamePreferences.getBatPlayer1Color().getColor());
+		
+		batBot.getElement().getStyle().setWidth(gamePreferences.getBatPlayer2Width(), Unit.PX);
+		batBot.getElement().getStyle().setHeight(gamePreferences.getBatPlayer2Height(), Unit.PX);
+		batBot.getElement().getStyle().setBackgroundColor(gamePreferences.getBatPlayer2Color().getColor());
+		
+		initGameFieldPositions(gamePreferences.getBatPlayer1PositionLeft(), gamePreferences.getBatPlayer2PositionRight());
+		
 		resetGameElements();
+		
 		game.setVisible(true);
-		//gameField.getElement().getStyle().setBackgroundColor("blue");
 	}
 	
-	private void initGameFieldPositions() {
+	private void initGameFieldPositions(int batPlayer1PositionLeft, int batPlayer2PositionRight) {
 		ballPosition = new Position(gameFieldHeight / 2 - ball.getOffsetHeight() / 2, gameFieldWidth / 2 - ball.getOffsetWidth() / 2);
-		batPlayerPosition = new Position(gameFieldHeight / 2 - batPlayer.getOffsetHeight() / 2, 15);
-		batBotPosition = new Position(gameFieldHeight / 2 - batBot.getOffsetHeight() / 2, gameFieldWidth - 15 - gameFieldBorder);
+		batPlayerPosition = new Position(gameFieldHeight / 2 - batPlayer.getOffsetHeight() / 2, batPlayer1PositionLeft);
+		batBotPosition = new Position(gameFieldHeight / 2 - batBot.getOffsetHeight() / 2, gameFieldWidth - batPlayer2PositionRight - gameFieldBorder);
 	}
 	
 	public void resetGameElements() {
@@ -183,31 +222,51 @@ public class PongViewImpl extends Composite implements PongView {
 	public void moveBall(int xDir, final int yDir, int ballSpeed) {
 		xDirection = xDir;
 		yDirection = yDir;
-		new Timer(){
+		timer = new Timer(){
 			@Override
 			public void run() {
-				if (ball.getElement().getOffsetTop() + yDirection < 0
-					|| ball.getElement().getOffsetTop() + yDirection > gameFieldHeight - gameFieldBorder) {
+				
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//				MOVEMENT_DEBUG																															//
+//				GWT.log("(ball)[1] " + (ball.getElement().getOffsetLeft() + ball.getOffsetWidth()) + " [2] " + batBot.getElement().getOffsetLeft() + 	//
+//				" [3] " + (ball.getElement().getOffsetTop() + ball.getOffsetHeight()) + " [4] " + batBot.getElement().getOffsetTop() + 					//
+//				" [5] " + ball.getElement().getOffsetTop() + " [6] " + (batBot.getElement().getOffsetTop() + batBot.getOffsetHeight()));				//
+//				GWT.log("(batBot)[Left] " + batBot.getElement().getOffsetLeft() + ", " + "[Top] " + batBot.getElement().getOffsetTop() +  ", " + 		//
+//				"[Bottom] " + (batPlayer.getElement().getOffsetTop() + batBot.getOffsetHeight()));														//
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+				
+				if (ball.getElement().getOffsetTop() <= 0 || ball.getElement().getOffsetTop() + ball.getOffsetHeight() >= gameFieldHeight ) {
 				 	yDirection = presenter.reboundTopBottom(yDirection);
 				}
-				if (ball.getElement().getOffsetLeft() + xDirection < 0) {
-					presenter.pointsPlusOne(PlayerType.BOT);
-					this.cancel();
+				if (ball.getElement().getOffsetLeft() <= 0) {
+						presenter.pointsPlusOne(PlayerType.BOT);
+					cancel();
 				}
-				if (ball.getElement().getOffsetLeft() + xDirection > gameFieldWidth - gameFieldBorder) {
+				if (ball.getElement().getOffsetLeft() >= gameFieldWidth - gameFieldBorder) {
 					presenter.pointsPlusOne(PlayerType.PLAYER);
-					this.cancel();
+					cancel();
 				}
-				if (ball.getElement().getOffsetLeft() + ball.getOffsetWidth() + xDirection == batBot.getElement().getOffsetLeft() && 
-						ball.getElement().getOffsetTop() + ball.getOffsetHeight() + yDirection > batBot.getElement().getOffsetTop() &&  
-						ball.getElement().getOffsetTop() + yDirection < batPlayer.getElement().getOffsetTop() + batBot.getOffsetHeight()){
-							presenter.reboundBat(xDirection);
+				if (ball.getElement().getOffsetLeft() == batPlayer.getElement().getOffsetLeft() + batPlayer.getOffsetWidth() && 
+						ball.getElement().getOffsetTop() >= batPlayer.getElement().getOffsetTop() &&  
+						ball.getElement().getOffsetTop() + ball.getOffsetHeight() <= batPlayer.getElement().getOffsetTop() + batPlayer.getOffsetHeight()){
+					presenter.reboundBat(xDirection);
 				}
-				if (ball.getElement().getOffsetLeft() + xDirection == batPlayer.getElement().getOffsetLeft() + batPlayer.getOffsetWidth() && 
-					ball.getElement().getOffsetTop() + ball.getOffsetHeight() + yDirection > batPlayer.getElement().getOffsetTop() &&  
-					ball.getElement().getOffsetTop() + yDirection < batPlayer.getElement().getOffsetTop() + batPlayer.getOffsetHeight()){
-						presenter.reboundBat(xDirection);
+				if (ball.getElement().getOffsetLeft() + ball.getOffsetWidth() == batBot.getElement().getOffsetLeft() && 
+						ball.getElement().getOffsetTop() >= batBot.getElement().getOffsetTop() &&  
+						ball.getElement().getOffsetTop() + ball.getOffsetHeight() <= batBot.getElement().getOffsetTop() + batBot.getOffsetHeight()){
+					presenter.reboundBat(xDirection);
 				}
+				
+//				if (ball.getElement().getOffsetTop() + ball.getOffsetHeight() == batPlayer.getElement().getOffsetTop() &&
+//						ball.getElement().getOffsetLeft() > batPlayer.getElement().getOffsetLeft() &&
+//						ball.getElement().getOffsetLeft() + ball.getOffsetWidth() < batPlayer.getElement().getOffsetLeft() + batPlayer.getOffsetWidth()){
+//					presenter.reboundBat(xDirection);
+//				}
+//				if (ball.getElement().getOffsetTop() == batPlayer.getElement().getOffsetTop() + batPlayer.getOffsetHeight() &&
+//						ball.getElement().getOffsetLeft() > batPlayer.getElement().getOffsetLeft() &&
+//						ball.getElement().getOffsetLeft() + ball.getOffsetWidth() < batPlayer.getElement().getOffsetLeft() + batPlayer.getOffsetWidth()){
+//					presenter.reboundBat(xDirection);
+//				}
 				//Funnktion kanten des schlägers
 				
 				moveBatBot();
@@ -215,18 +274,25 @@ public class PongViewImpl extends Composite implements PongView {
 				ball.getElement().getStyle().setTop(ball.getElement().getOffsetTop() + yDirection, Unit.PX);
 				ball.getElement().getStyle().setLeft(ball.getElement().getOffsetLeft() + xDirection, Unit.PX);
 			}
-		}.scheduleRepeating(ballSpeed);
+		};
+		timer.scheduleRepeating(ballSpeed);
 	}
 	
 	public void moveBatBot(){
-		if (ball.getElement().getOffsetTop() + 5 - batBot.getOffsetHeight() / 2 > 0 && ball.getElement().getOffsetTop() - 5 + batBot.getOffsetHeight() / 2 < gameFieldHeight){
+		if (ball.getElement().getOffsetTop() + 1 > batBot.getOffsetHeight() / 2 && ball.getElement().getOffsetTop() + ball.getElement().getOffsetHeight() - 1 < gameFieldHeight + gameFieldBorder - batBot.getOffsetHeight() / 2){
 			batBot.getElement().getStyle().setTop(ball.getElement().getOffsetTop() - batBot.getOffsetHeight() / 2, Unit.PX);
+			//wo kommmt die 1 her???
 		}
 	}
 	
 	public void initClickable(){
 		startButton.getElement().addClassName("clickable");
 		logoutButton.getElement().addClassName("clickable");
+		breakButton.getElement().addClassName("clickable");
+	}
+
+	public void setBreakButtonVisible(boolean visible) {
+		breakButton.setVisible(visible);
 	}
 
 }

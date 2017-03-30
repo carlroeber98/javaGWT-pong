@@ -1,6 +1,7 @@
 package com.carl.pongspiel.client.view;
 
 import com.carl.pongspiel.client.presenter.PongPresenter;
+import com.carl.pongspiel.client.ui.GamePreferences;
 import com.carl.pongspiel.shared.model.PlayerType;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -39,6 +40,8 @@ public interface PongView {
 
 	void setXyDirection(int xDir, int yDir);
 	
-	void buildGameField(int width, int hight, int gameFieldBorder);
+	void buildGameField(GamePreferences gamePreferences);
+
+	void setBreakButtonVisible(boolean visible);
 
 }

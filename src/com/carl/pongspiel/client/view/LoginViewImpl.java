@@ -106,7 +106,6 @@ public class LoginViewImpl extends Composite implements LoginView {
 
 	@UiHandler("sendButton")
 	public void onSendButtonClicked(ClickEvent e) {
-		GWT.debugger();
 		if (passwordConfirmFieldDiv.isVisible()){
 			presenter.createNewUser(usernameField.getText(), passwordField.getText(), passwordConfirmField.getText());
 		}
