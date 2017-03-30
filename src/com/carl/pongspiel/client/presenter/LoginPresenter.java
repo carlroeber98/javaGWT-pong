@@ -5,7 +5,6 @@ import com.carl.pongspiel.client.UserService;
 import com.carl.pongspiel.client.view.LoginView;
 import com.carl.pongspiel.shared.model.PlayerType;
 import com.carl.pongspiel.shared.model.UserPoints;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -60,19 +59,17 @@ public class LoginPresenter implements LoginView.Presenter {
 					
 					@Override
 					public void onFailure(Throwable caught) {
-						loginView.userWarning("Failure loading database.");
-						GWT.log("Failure loading database.");
+						appController.showError("Failure loading database.");
 					}
 	
 					@Override
 					public void onSuccess(Boolean result) {
 						if (!result){
 							loginView.newUserLayout();
-							loginView.userWarning("Bitte geben Sie ein Passwort ein.");
 							booleanOut = true;
 						}
 						else{
-							loginView.userWarning("Der Username existiert bereits. Bitte wählen Sie einen anderen Benutzernamen");
+							appController.showWarning("Der Username existiert bereits. Bitte wählen Sie einen anderen Benutzernamen");
 							booleanOut = false;
 						}
 					}
@@ -80,12 +77,12 @@ public class LoginPresenter implements LoginView.Presenter {
 				});
 			}
 			else{
-				loginView.userWarning("Der Username darf keine Sonderzeichen enthalten!");
+				appController.showWarning("Der Username darf keine Sonderzeichen enthalten!");
 				return false;
 			}
 		}
 		else{
-			loginView.userWarning("Der Username darf nicht leer sein!");
+			appController.showWarning("Der Username darf nicht leer sein!");
 			return false;
 		}
 		return booleanOut;
@@ -110,33 +107,32 @@ public class LoginPresenter implements LoginView.Presenter {
 			
 							@Override
 							public void onFailure(Throwable caught) {
-								loginView.userWarning("Failure loading database.");
-								GWT.log("Failure loading database.");
+								appController.showError("Failure loading database.");
 							}
 			
 							@Override
 							public void onSuccess(Boolean result) {
 								if (result){
 									loginView.loginUserLabel();
-									loginView.userWarning("Ein neues Benutzerkonto wurde erstellt.");
+									appController.showSuccess("Ein neues Benutzerkonto wurde erstellt.");
 								}
 								else{ 
-									loginView.userWarning("Fehler beim erstellen eines neuen Benutzerkontos.");
+									appController.showError("Fehler beim erstellen eines neuen Benutzerkontos.");
 								}
 							}
 							
 						});
 					}
 					else{
-						loginView.userWarning("Die Passwörter stimmen nicht überein!");
+						appController.showWarning("Die Passwörter stimmen nicht überein!");
 					}
 				}
 				else{
-					loginView.userWarning("Der Username darf keine Sonderzeichen enthalten!");
+					appController.showWarning("Der Username darf keine Sonderzeichen enthalten!");
 				}
 			}
 			else{
-				loginView.userWarning("Der Username und das Passwort dürfen nicht leer sein!");
+				appController.showWarning("Der Username und das Passwort dürfen nicht leer sein!");
 			}
 		}
 	}
@@ -157,8 +153,7 @@ public class LoginPresenter implements LoginView.Presenter {
 	
 					@Override
 					public void onFailure(Throwable caught) {
-						loginView.userWarning("Failure loading database.");
-						GWT.log("Failure loading database.");
+						appController.showError("Failure loading database.");
 					}
 	
 					@Override
@@ -168,17 +163,17 @@ public class LoginPresenter implements LoginView.Presenter {
 							getUserHighscore(username);
 						} 
 						else {
-							loginView.userWarning("Der Username oder das Passwort ist falsch!");
+							appController.showWarning("Der Username oder das Passwort ist falsch!");
 						}
 					}
 				});
 			}
 			else{
-				loginView.userWarning("Der Username darf keine Sonderzeichen enthalten!");
+				appController.showWarning("Der Username darf keine Sonderzeichen enthalten!");
 			}
 		}
 		else{
-			loginView.userWarning("Der Username und das Passwort dürfen nicht leer sein!");
+			appController.showWarning("Der Username und das Passwort dürfen nicht leer sein!");
 		}
 	}
 	
@@ -190,15 +185,14 @@ public class LoginPresenter implements LoginView.Presenter {
 		UserService.Util.getInstance().getUserHighscore(username, new AsyncCallback<Integer>() {
 			@Override
 			public void onFailure(Throwable caught) {
-				GWT.log("Failure loading database");
-				loginView.welcomeUserLabel(pointsPlayer);
+				appController.showWarning("Wilkommen " + pointsPlayer.getUsername() + ". Kein Highscore vorhanden.");
 				loginView.loadingPage();
 			}
 
 			@Override
 			public void onSuccess(Integer result) {
 				pointsPlayer.setHighscrore(result);
-				loginView.welcomeUserLabel(pointsPlayer);
+				appController.showSuccess("Wilkommen " + pointsPlayer.getUsername() + ". Aktueller Highscore " + pointsPlayer.getHighscrore() + ".");
 				loginView.loadingPage();
 			}
 		});

@@ -8,6 +8,10 @@ import com.carl.pongspiel.client.model.Difficulty;
 import com.carl.pongspiel.client.presenter.LoginPresenter;
 import com.carl.pongspiel.client.presenter.PongPresenter;
 import com.carl.pongspiel.client.ui.GamePreferences;
+import com.carl.pongspiel.client.ui.growl.Animation;
+import com.carl.pongspiel.client.ui.growl.Growl;
+import com.carl.pongspiel.client.ui.growl.GrowlOptions;
+import com.carl.pongspiel.client.ui.growl.GrowlType;
 import com.carl.pongspiel.client.view.LoginView;
 import com.carl.pongspiel.client.view.LoginViewImpl;
 import com.carl.pongspiel.client.view.PongView;
@@ -34,8 +38,13 @@ public class AppController implements EntryPoint {
 	public boolean newView = false;
 	
 	public void onModuleLoad() {
+		initGrowl();
 		initPongView();
 		initLoginView();
+	}
+
+	private void initGrowl() {
+		Growl.setContainer(RootPanel.get("growlContainer"));
 	}
 
 	public void buildGamePong(Difficulty difficulty) {
@@ -69,7 +78,7 @@ public class AppController implements EntryPoint {
 		gamePreferences.setGameFieldBorderColor(Color.BLUE);
 		gamePreferences.setBallHeight(10);
 		gamePreferences.setBallWidth(10);
-		gamePreferences.setBallColor(Color.YELLOW);
+		gamePreferences.setBallColor(Color.WHITE);
 		gamePreferences.setBatPlayer1PositionLeft(20);
 		gamePreferences.setBatPlayer1Height(100);
 		gamePreferences.setBatPlayer1Width(8);
@@ -77,7 +86,7 @@ public class AppController implements EntryPoint {
 		gamePreferences.setBatPlayer2PositionRight(15);
 		gamePreferences.setBatPlayer2Height(100);
 		gamePreferences.setBatPlayer2Width(8);
-		gamePreferences.setBatPlayer2Color(Color.BLUE);
+		gamePreferences.setBatPlayer2Color(Color.GREEN);
 		gamePreferences.setLabelPointsColor(Color.WHITE);
 		gamePreferences.setButtonBackgroundColor(Color.WHITE);
 		gamePreferences.setButtonFontColor(Color.BLACK);
@@ -86,6 +95,33 @@ public class AppController implements EntryPoint {
 	
 	public void setNewView(boolean bool){
 		newView = bool;
+	}
+	
+	public void showInfo(String infoText) {
+		showGrowl(GrowlType.INFO, true, infoText);
+	}
+
+	public void showSuccess(String infoText) {
+		showGrowl(GrowlType.SUCCESS, true, infoText);
+	}
+
+	public void showWarning(String warningMessage) {
+		showGrowl(GrowlType.WARNING, true, warningMessage);
+	}
+
+	public void showError(final String errorMessage) {
+		showGrowl(GrowlType.DANGER, false, errorMessage);
+	}
+
+	private static void showGrowl(GrowlType type, boolean allowDismiss, String message) {
+		try {
+			final GrowlOptions growlOpts = new GrowlOptions();
+			growlOpts.setType(type);
+			growlOpts.setAnimation(Animation.FADE_IN_UP_BIG, Animation.FADE_OUT_DOWN_BIG);
+			new Growl(growlOpts).growl(message);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

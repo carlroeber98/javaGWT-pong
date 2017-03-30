@@ -10,7 +10,6 @@ import org.gwtbootstrap3.client.ui.RadioButton;
 
 import com.carl.pongspiel.client.model.Difficulty;
 import com.carl.pongspiel.client.presenter.LoginPresenter;
-import com.carl.pongspiel.shared.model.UserPoints;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -62,20 +61,8 @@ public class LoginViewImpl extends Composite implements LoginView {
 	Button sendButton;
 	
 	@UiField
-	Widget userPreferences;
+	Widget loginDiv;
 
-	@UiField
-	HasText welcomeLabel;
-
-	@UiField
-	Widget userMessageDiv;
-
-	@UiField
-	HasText userMessageLabel;
-
-	@UiField
-	Widget waitingLayout;
-	
 	@UiField
 	Widget passwordConfirmFieldDiv;
 	
@@ -87,6 +74,9 @@ public class LoginViewImpl extends Composite implements LoginView {
 	
 	@UiField
 	ButtonGroup difficultyButtonGroup;
+	
+	@UiField
+	Widget spinner;
 	
 	private List<RadioButton> difficultyRadioButtons = new ArrayList<RadioButton>();
 	
@@ -187,29 +177,18 @@ public class LoginViewImpl extends Composite implements LoginView {
 		}
 		return selectedDificulty;
 	}
-	
-	public void welcomeUserLabel(UserPoints pointsPlayer) {
-		welcomeLabel.setText("Wilkommen " + pointsPlayer.getUsername() + ". " + "Du hast einen aktuellen Highscore von " + pointsPlayer.getHighscrore() + " Punkten");
-	}
 
-	public void userWarning(String userMessage) {
-		userMessageLabel.setText(userMessage);
-		userMessageDiv.setVisible(true);
-	}
-
-	@Override
 	public void loadingPage() {
-		userMessageDiv.setVisible(false);
-		userPreferences.setVisible(false);
+		loginDiv.setVisible(false);
 		Timer t = new Timer() {
 			@Override
 			public void run() {
-				waitingLayout.setVisible(false);
+				spinner.setVisible(false);
 				presenter.onLoadingFinished();
 			}
 		};
 		t.schedule(2000);
-		waitingLayout.setVisible(true);
+		spinner.setVisible(true);
 	}
 
 	private void initClickable() {

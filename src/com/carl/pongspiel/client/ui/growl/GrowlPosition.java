@@ -1,4 +1,4 @@
-package com.interfacema.gis.client.ui.growl;
+package com.carl.pongspiel.client.ui.growl;
 
 
 
@@ -6,7 +6,7 @@ package com.interfacema.gis.client.ui.growl;
  * Enumeration of possible screen positions of the Growl.
  *
  */
-public enum InterfacemaGrowlPosition {
+public enum GrowlPosition {
 
     TOP_LEFT("top-left"),
     TOP_RIGHT("top-right"),
@@ -15,7 +15,7 @@ public enum InterfacemaGrowlPosition {
 
     private final String position;
 
-    private InterfacemaGrowlPosition(final String position) {
+    private GrowlPosition(final String position) {
         this.position = position;
     }
 

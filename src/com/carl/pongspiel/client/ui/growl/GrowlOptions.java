@@ -1,4 +1,4 @@
-package com.interfacema.gis.client.ui.growl;
+package com.carl.pongspiel.client.ui.growl;
 
 /**
  * 
@@ -9,17 +9,17 @@ package com.interfacema.gis.client.ui.growl;
  *
  */
 
-public class InterfacemaGrowlOptions {
+public class GrowlOptions {
 
-	private InterfacemaAnimation enter = InterfacemaAnimation.FADE_IN_UP;
+	private Animation enter = Animation.FADE_IN_UP;
 
-	private InterfacemaAnimation exit = InterfacemaAnimation.FADE_OUT_DOWN;
+	private Animation exit = Animation.FADE_OUT_DOWN;
 
 	private int delay = 6;
 
-	private InterfacemaGrowlPosition position = InterfacemaGrowlPosition.BOTTOM_RIGHT;
+	private GrowlPosition position = GrowlPosition.BOTTOM_RIGHT;
 
-	private InterfacemaGrowlType type = InterfacemaGrowlType.INFO;
+	private GrowlType type = GrowlType.INFO;
 
 	/**
 	 * Sets the enter and exit animation.
@@ -27,9 +27,9 @@ public class InterfacemaGrowlOptions {
 	 * @param enter
 	 * @param exit
 	 */
-	public final void setAnimation(InterfacemaAnimation enter, InterfacemaAnimation exit) {
-		this.enter = (enter != null) ? enter : InterfacemaAnimation.NO_ANIMATION;
-		this.exit = (exit != null) ? exit : InterfacemaAnimation.NO_ANIMATION;
+	public final void setAnimation(Animation enter, Animation exit) {
+		this.enter = (enter != null) ? enter : Animation.NO_ANIMATION;
+		this.exit = (exit != null) ? exit : Animation.NO_ANIMATION;
 	}
 
 	/**
@@ -47,7 +47,7 @@ public class InterfacemaGrowlOptions {
 	 * 
 	 * @param position
 	 */
-	public final void setPosition(InterfacemaGrowlPosition position) {
+	public final void setPosition(GrowlPosition position) {
 		if (position != null) {
 			this.position = position;
 		}
@@ -58,7 +58,7 @@ public class InterfacemaGrowlOptions {
 	 * 
 	 * @param type
 	 */
-	public final void setType(InterfacemaGrowlType type) {
+	public final void setType(GrowlType type) {
 		if (type != null)
 			this.type = type;
 	}
@@ -66,14 +66,14 @@ public class InterfacemaGrowlOptions {
 	/**
 	 * @return the enter
 	 */
-	public InterfacemaAnimation getEnterAnimation() {
+	public Animation getEnterAnimation() {
 		return enter;
 	}
 
 	/**
 	 * @return the exit
 	 */
-	public InterfacemaAnimation getExitAnimation() {
+	public Animation getExitAnimation() {
 		return exit;
 	}
 
@@ -87,7 +87,7 @@ public class InterfacemaGrowlOptions {
 	/**
 	 * @return the position
 	 */
-	public InterfacemaGrowlPosition getPosition() {
+	public GrowlPosition getPosition() {
 		return position;
 	}
 
@@ -108,7 +108,7 @@ public class InterfacemaGrowlOptions {
 	/**
 	 * @return the type
 	 */
-	public InterfacemaGrowlType getType() {
+	public GrowlType getType() {
 		return type;
 	}
 

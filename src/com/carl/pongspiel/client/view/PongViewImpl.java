@@ -7,6 +7,7 @@ import org.gwtbootstrap3.client.ui.html.Div;
 import com.carl.pongspiel.client.presenter.PongPresenter;
 import com.carl.pongspiel.client.ui.GamePreferences;
 import com.carl.pongspiel.client.ui.Position;
+import com.carl.pongspiel.shared.Languages;
 import com.carl.pongspiel.shared.model.PlayerType;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
@@ -52,6 +53,7 @@ public class PongViewImpl extends Composite implements PongView {
 	private int xDirection;
 	private int yDirection;
 	private int batSpeed;
+	private int ballSpeed;
 	private int gameFieldBorder;
 	private Position ballPosition;
 	private Position batPlayerPosition;
@@ -100,19 +102,20 @@ public class PongViewImpl extends Composite implements PongView {
 	
 	@UiHandler("logoutButton")
 	public void onlogoutButtonClicked(ClickEvent e) {
-		timer.cancel();
+		if (timer != null && timer.isRunning())
+			timer.cancel();
 		presenter.logout();
 	}
 	
 	@UiHandler("breakButton")
 	public void onBreakButtonClicked(ClickEvent e) {
-//		try {
-//			timer.wait();
-//			breakButton.setVisible(false);
-//			startButton.setVisible(true);
-//		} catch (InterruptedException e1) {
-//			e1.printStackTrace();
-//		}
+		if(timer != null && timer.isRunning()){
+			timer.cancel();
+			breakButton.setText(Languages.continue2());
+		}else{
+			timer.scheduleRepeating(ballSpeed);
+			breakButton.setText(Languages.pause());
+		}
 	}
 	
 	public void addKeyHandlers() {
@@ -177,7 +180,7 @@ public class PongViewImpl extends Composite implements PongView {
 		game.setVisible(true);
 	}
 	
-	private void initGameFieldPositions(int batPlayer1PositionLeft, int batPlayer2PositionRight) {
+	public void initGameFieldPositions(int batPlayer1PositionLeft, int batPlayer2PositionRight) {
 		ballPosition = new Position(gameFieldHeight / 2 - ball.getOffsetHeight() / 2, gameFieldWidth / 2 - ball.getOffsetWidth() / 2);
 		batPlayerPosition = new Position(gameFieldHeight / 2 - batPlayer.getOffsetHeight() / 2, batPlayer1PositionLeft);
 		batBotPosition = new Position(gameFieldHeight / 2 - batBot.getOffsetHeight() / 2, gameFieldWidth - batPlayer2PositionRight - gameFieldBorder);
@@ -194,34 +197,10 @@ public class PongViewImpl extends Composite implements PongView {
 		batBot.getElement().getStyle().setTop(batBotPosition.getTop(), Unit.PX);
 	}
 	
-	public void setXyDirection(int xDir, int yDir){
-		this.xDirection = xDir;
-		this.yDirection = yDir;
-	}
-
-	public void setbatSpeed(int speed){
-		this.batSpeed = speed;
-	}
-
-	public void setStartButtonVisible(boolean visible) {
-		startButton.setVisible(visible);
-	}
-
-	public void setPoints(int player, int bot) {
-		pointsLabel.setText(player + " : " + bot);
-	}
-
-	public Widget getBall() {
-		return ball;
-	}
-
-	public void setBall(Widget ball) {
-		this.ball = ball;
-	}
-
-	public void moveBall(int xDir, final int yDir, int ballSpeed) {
+	public void moveBall(final int xDir, final int yDir, final int ballSp) {
 		xDirection = xDir;
 		yDirection = yDir;
+		ballSpeed = ballSp;
 		timer = new Timer(){
 			@Override
 			public void run() {
@@ -279,9 +258,9 @@ public class PongViewImpl extends Composite implements PongView {
 	}
 	
 	public void moveBatBot(){
-		if (ball.getElement().getOffsetTop() + 1 > batBot.getOffsetHeight() / 2 && ball.getElement().getOffsetTop() + ball.getElement().getOffsetHeight() - 1 < gameFieldHeight + gameFieldBorder - batBot.getOffsetHeight() / 2){
+		if (ball.getElement().getOffsetTop() + 0.5 > batBot.getOffsetHeight() / 2 && ball.getElement().getOffsetTop() + ball.getElement().getOffsetHeight() - 2.5 < gameFieldHeight + gameFieldBorder - batBot.getOffsetHeight() / 2){
 			batBot.getElement().getStyle().setTop(ball.getElement().getOffsetTop() - batBot.getOffsetHeight() / 2, Unit.PX);
-			//wo kommmt die 1 her???
+			//wo kommmt die 2 her???
 		}
 	}
 	
@@ -289,6 +268,23 @@ public class PongViewImpl extends Composite implements PongView {
 		startButton.getElement().addClassName("clickable");
 		logoutButton.getElement().addClassName("clickable");
 		breakButton.getElement().addClassName("clickable");
+	}
+	
+	public void setXyDirection(int xDir, int yDir){
+		this.xDirection = xDir;
+		this.yDirection = yDir;
+	}
+
+	public void setbatSpeed(int speed){
+		this.batSpeed = speed;
+	}
+
+	public void setStartButtonVisible(boolean visible) {
+		startButton.setVisible(visible);
+	}
+
+	public void setPoints(int player, int bot) {
+		pointsLabel.setText(player + " : " + bot);
 	}
 
 	public void setBreakButtonVisible(boolean visible) {

@@ -3,6 +3,8 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:b="urn:import:org.gwtbootstrap3.client.ui"
 	xmlns:bg="urn:import:org.gwtbootstrap3.client.ui.gwt" xmlns:bh="urn:import:org.gwtbootstrap3.client.ui.html">
 
+	<ui:with type="com.carl.pongspiel.shared.Languages" field="lang" />
+		
 	<ui:style>
 	.radioButtonGroup>label>span{
 		font-weight: bold;
@@ -22,7 +24,7 @@
 	
 	<bh:Div>
 		<bh:Div addStyleNames="center" visible="true"
-			ui:field="userPreferences">
+			ui:field="loginDiv">
 
 			<b:Image type="ROUNDED" url="img/pongStart.png" />
 
@@ -51,22 +53,14 @@
 			</bh:Div>
 
 			<bh:Div addStyleNames="distance">
-				<b:Button ui:field="sendButton" addStyleNames="button">Senden</b:Button>
-			</bh:Div>
-			<bh:Div addStyleNames="distance" ui:field="userMessageDiv" visible="false">
-			<b:Label addStyleNames="userMessage" ui:field="userMessageLabel"></b:Label>
+				<b:Button ui:field="sendButton" addStyleNames="button" text="{lang.send}"/>
 			</bh:Div>
 		</bh:Div>
-
-		<bh:Div addStyleNames="center" ui:field="waitingLayout" visible="false">
-			<b:Label addStyleNames="welcome" ui:field="welcomeLabel"></b:Label>
-			<bh:Div addStyleNames="spinner">
-				<bh:Div addStyleNames="bounce1" />
-				<bh:Div addStyleNames="bounce2" />
+				<bh:Div addStyleNames="spinner center" ui:field="spinner" visible="false">
+					<bh:Div addStyleNames="bounce1" />
+					<bh:Div addStyleNames="bounce2" />
 				<bh:Div />
-			</bh:Div>
 		</bh:Div>
-
 	</bh:Div>
 
 </ui:UiBinder>

@@ -24,8 +24,6 @@ public interface PongView {
 
 	Widget asWidget();
 
-	Widget getBall();
-
 	void setStartButtonVisible(boolean visible);
 
 	void setPoints(int Player, int Bot);

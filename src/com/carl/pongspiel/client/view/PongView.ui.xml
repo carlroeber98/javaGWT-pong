@@ -3,11 +3,13 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:b="urn:import:org.gwtbootstrap3.client.ui"
 	xmlns:bg="urn:import:org.gwtbootstrap3.client.ui.gwt" xmlns:bh="urn:import:org.gwtbootstrap3.client.ui.html">
 
+	<ui:with type="com.carl.pongspiel.shared.Languages" field="lang" />
+		
 	<ui:style>
 		
 	.squareborder {
 		border: 1px solid #FFFFFF;
-		/*display:flex;*/
+		display:flex;
 		margin:auto;
 	}
 	
@@ -44,9 +46,9 @@
 				<bh:Div ui:field="ball" addStyleNames="{style.ball}" />
 				<bh:Div ui:field="batBot" addStyleNames="{style.schlaeger-bot}" />
 			</bh:Div>
-			<b:Button ui:field="breakButton" visible="false" addStyleNames="button">Pause</b:Button>
-			<b:Button ui:field="startButton" addStyleNames="button">Starten</b:Button>
-			<b:Button ui:field="logoutButton" addStyleNames="button">Logout</b:Button>
+			<b:Button ui:field="breakButton" visible="false" addStyleNames="button" text="{lang.pause}" />
+			<b:Button ui:field="startButton" addStyleNames="button" text="{lang.start}" />
+			<b:Button ui:field="logoutButton" addStyleNames="button" text="Logout" />
 		</bh:Div>
 	</bh:Div>
 </ui:UiBinder>

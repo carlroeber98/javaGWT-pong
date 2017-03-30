@@ -2,7 +2,6 @@ package com.carl.pongspiel.client.view;
 
 import com.carl.pongspiel.client.model.Difficulty;
 import com.carl.pongspiel.client.presenter.LoginPresenter;
-import com.carl.pongspiel.shared.model.UserPoints;
 import com.google.gwt.user.client.ui.Widget;
 
 public interface LoginView {
@@ -21,10 +20,6 @@ public interface LoginView {
 	void setPresenter(LoginPresenter presenter);
 
 	Widget asWidget();
-	
-	void welcomeUserLabel(UserPoints pointsPlayer);
-	
-	void userWarning(String warningMessage);
 	
 	void newUserLayout();
 

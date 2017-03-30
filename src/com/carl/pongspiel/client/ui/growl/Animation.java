@@ -1,4 +1,4 @@
-package com.interfacema.gis.client.ui.growl;
+package com.carl.pongspiel.client.ui.growl;
 
 import org.gwtbootstrap3.client.ui.base.helper.EnumHelper;
 
@@ -9,7 +9,7 @@ import com.google.gwt.dom.client.Style;
  * See: http://daneden.github.io/animate.css/
  *
  */
-public enum InterfacemaAnimation implements Style.HasCssName {
+public enum Animation implements Style.HasCssName {
 
     BOUNCE("animated bounce"),
     BOUNCE_IN("animated bounceIn"),
@@ -81,7 +81,7 @@ public enum InterfacemaAnimation implements Style.HasCssName {
 
     private final String cssClass;
 
-    private InterfacemaAnimation(final String cssClass) {
+    private Animation(final String cssClass) {
         this.cssClass = cssClass;
     }
 
@@ -90,8 +90,8 @@ public enum InterfacemaAnimation implements Style.HasCssName {
         return cssClass;
     }
 
-    public static InterfacemaAnimation fromStyleName(final String styleName) {
-        return EnumHelper.fromStyleName(styleName, InterfacemaAnimation.class, NO_ANIMATION);
+    public static Animation fromStyleName(final String styleName) {
+        return EnumHelper.fromStyleName(styleName, Animation.class, NO_ANIMATION);
     }
 
 }

@@ -1,4 +1,4 @@
-package com.interfacema.gis.client.ui.growl;
+package com.carl.pongspiel.client.ui.growl;
 
 /**
  * Enumeration of Growl`s types (CSS class names).
@@ -7,13 +7,13 @@ package com.interfacema.gis.client.ui.growl;
  *
  */
 
-public enum InterfacemaGrowlType implements com.google.gwt.dom.client.Style.HasCssName {
+public enum GrowlType implements com.google.gwt.dom.client.Style.HasCssName {
 
 	DANGER("danger"), INFO("info"), SUCCESS("success"), WARNING("warning");
 
 	private final String cssClass;
 
-	private InterfacemaGrowlType(final String cssClass) {
+	private GrowlType(final String cssClass) {
 		this.cssClass = cssClass;
 	}
 

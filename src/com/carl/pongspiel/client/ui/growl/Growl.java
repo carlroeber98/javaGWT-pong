@@ -1,4 +1,4 @@
-package com.interfacema.gis.client.ui.growl;
+package com.carl.pongspiel.client.ui.growl;
 
 import static com.google.gwt.query.client.GQuery.$;
 
@@ -10,6 +10,8 @@ import org.gwtbootstrap3.client.ui.html.Span;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.query.client.Function;
+import com.google.gwt.query.client.Properties;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
@@ -23,11 +25,11 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 
-public class InterfacemaGrowl extends Composite {
+public class Growl extends Composite {
 
-	private static InterfacemaGrowlUiBinder uiBinder = GWT.create(InterfacemaGrowlUiBinder.class);
+	private static GrowlUiBinder uiBinder = GWT.create(GrowlUiBinder.class);
 
-	interface InterfacemaGrowlUiBinder extends UiBinder<Widget, InterfacemaGrowl> {
+	interface GrowlUiBinder extends UiBinder<Widget, Growl> {
 	}
 
 	/**
@@ -38,18 +40,18 @@ public class InterfacemaGrowl extends Composite {
 	/**
 	 * Represents the number currently of active growls.
 	 */
-	private static int[] counter = new int[InterfacemaGrowlPosition.values().length];
+	private static int[] counter = new int[GrowlPosition.values().length];
 
 	@UiField
 	Div growlContainer;
 	@UiField
 	Span message;
-	static List<InterfacemaGrowl> allGrowls = new ArrayList<InterfacemaGrowl>();
+	static List<Growl> allGrowls = new ArrayList<Growl>();
 
-	InterfacemaGrowl thisGrowl;
-	InterfacemaGrowlOptions growlOptions = new InterfacemaGrowlOptions();
+	Growl thisGrowl;
+	GrowlOptions growlOptions = new GrowlOptions();
 
-	public InterfacemaGrowl() {
+	public Growl() {
 		initWidget(uiBinder.createAndBindUi(this));
 		growlContainer.getElement().setAttribute("data-growl", "container");
 		growlContainer.getElement().setAttribute("role", "alert");
@@ -57,7 +59,7 @@ public class InterfacemaGrowl extends Composite {
 		allGrowls.add(thisGrowl);
 	}
 
-	public InterfacemaGrowl(InterfacemaGrowlOptions options) {
+	public Growl(GrowlOptions options) {
 		this();
 		this.setGrowlOptions(options);
 	}
@@ -72,13 +74,13 @@ public class InterfacemaGrowl extends Composite {
 	 * @param message
 	 * @return displayed growl
 	 */
-	public InterfacemaGrowl growl(final String message) {
+	public Growl growl(final String message) {
 
 		this.message.setText(message);
 		try {
 			appContainer.add(thisGrowl);
 		} catch (Exception e) {
-			System.out.println("ERROR: Application container is undefined . Use setContainer(container) method to set the main container to which this growl has to be added.");
+			GWT.log("ERROR: Application container is undefined . Use setContainer(container) method to set the main container to which this growl has to be added.");
 			e.printStackTrace();
 		}
 
@@ -113,7 +115,7 @@ public class InterfacemaGrowl extends Composite {
 	 * Adjusts the offset of all active growls
 	 */
 	private void adjustOffsetOfAllActiveGrowls() {
-		for (InterfacemaGrowl growl : allGrowls) {
+		for (Growl growl : allGrowls) {
 			if (growlOptions.getPosition().ordinal() == growl.growlOptions.getPosition().ordinal()) {
 				int positionHorizontal = Integer.parseInt(growl.growlContainer.getElement().getStyle().getProperty(growl.getGrowlOptions().getPositionHorizontal()).replace("px", ""));
 				growl.growlContainer.getElement().getStyle().setProperty(growl.growlOptions.getPositionHorizontal(), positionHorizontal - 61 + "px");
@@ -135,7 +137,7 @@ public class InterfacemaGrowl extends Composite {
 	/**
 	 * @return the growlOptions
 	 */
-	public InterfacemaGrowlOptions getGrowlOptions() {
+	public GrowlOptions getGrowlOptions() {
 		return growlOptions;
 	}
 
@@ -143,7 +145,7 @@ public class InterfacemaGrowl extends Composite {
 	 * @param growlOptions
 	 *            the growlOptions to set
 	 */
-	public void setGrowlOptions(InterfacemaGrowlOptions growlOptions) {
+	public void setGrowlOptions(GrowlOptions growlOptions) {
 		this.growlOptions = growlOptions;
 	}
 
