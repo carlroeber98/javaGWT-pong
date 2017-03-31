@@ -32,4 +32,18 @@ public class Languages {
 		else
 			return "Continue";
 	}
+	
+	public static String singleplayer(){
+		if (de)
+			return "Einzelspieler";
+		else
+			return "Singleplayer";
+	}
+	
+	public static String multiplayer(){
+		if (de)
+			return "Mehrspieler";
+		else
+			return "Multiplayer";
+	}
 }

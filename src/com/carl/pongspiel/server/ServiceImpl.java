@@ -3,7 +3,7 @@ package com.carl.pongspiel.server;
 import java.io.*;
 
 import com.carl.pongspiel.client.UserService;
-import com.carl.pongspiel.shared.model.UserPoints;
+import com.carl.pongspiel.shared.model.PlayerPoints;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 @SuppressWarnings("serial")
@@ -45,7 +45,7 @@ public class ServiceImpl extends RemoteServiceServlet implements UserService {
 		}
 	}
 	
-	public Boolean setNewHighscore(UserPoints playerType) {
+	public Boolean setNewHighscore(PlayerPoints playerType) {
 		try {
 			return addNewHighscore(playerType);
 		} catch (IOException e) {
@@ -134,7 +134,7 @@ public class ServiceImpl extends RemoteServiceServlet implements UserService {
 		return 0;
 	}
 
-	private Boolean addNewHighscore(UserPoints playerType) throws IOException{
+	private Boolean addNewHighscore(PlayerPoints playerType) throws IOException{
 		File file = new File("database/HighscoreDatabase.txt");
 		Writer writer = new FileWriter(file, true);
 		writer.write(playerType.getUsername() + ";" + playerType.getPoints());

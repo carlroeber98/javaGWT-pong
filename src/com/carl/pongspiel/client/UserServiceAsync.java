@@ -1,6 +1,6 @@
 package com.carl.pongspiel.client;
 
-import com.carl.pongspiel.shared.model.UserPoints;
+import com.carl.pongspiel.shared.model.PlayerPoints;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 
@@ -14,5 +14,5 @@ public interface UserServiceAsync {
 
 	void createNewUser(String username, String password, AsyncCallback<Boolean> asyncCallback);
 
-	void setNewHighscore(UserPoints playerType, AsyncCallback<Boolean> asyncCallback);
+	void setNewHighscore(PlayerPoints playerType, AsyncCallback<Boolean> asyncCallback);
 }

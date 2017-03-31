@@ -2,17 +2,17 @@ package com.carl.pongspiel.shared.model;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
-public class UserPoints implements IsSerializable{
+public class PlayerPoints implements IsSerializable{
 	private String username = "";
 	private PlayerType playerType; 
 	private int points = 0;
 	private int highscrore = 0;
 	
-	public UserPoints(){
+	public PlayerPoints(){
 		//
 	}
 	
-	public UserPoints(String username, PlayerType playerType, int points, int highscore){
+	public PlayerPoints(String username, PlayerType playerType, int points, int highscore){
 		this.setUsername(username);
 		this.setPlayerType(playerType);
 		this.setPoints(points);
@@ -27,7 +27,7 @@ public class UserPoints implements IsSerializable{
 		return playerType;
 	}
 
-	public UserPoints(int points, PlayerType playerType){
+	public PlayerPoints(int points, PlayerType playerType){
 		this.setPoints(points);
 		this.setPlayerType(playerType);
 	}

@@ -20,16 +20,17 @@
 		color:#FF0000;
 	}
 	
+	
 	</ui:style>
 	
 	<bh:Div>
 		<bh:Div addStyleNames="center" visible="true"
 			ui:field="loginDiv">
 
-			<b:Image type="ROUNDED" url="img/pongStart.png" />
+			<b:Image type="ROUNDED" url="img/pongStart.png" ui:field="pongImage"/>
 
 			<bh:Div addStyleNames="distance">
-				<b:TextBox placeholder="Username" b:id="userName"
+				<b:Input type="TEXT" placeholder="Username" b:id="userName"
 					ui:field="usernameField" />
 			</bh:Div>
 
@@ -44,16 +45,21 @@
 					<b:Input type="PASSWORD" placeholder="Passwort bestätigen" b:id="passwortConfirm" ui:field="passwordConfirmField"/>
 				</bh:Div>
 				<bh:Div addStyleNames="distance">
-					<b:Label addStyleNames="login" ui:field="LoginUserLabel" visible="false">Oder mit bereits vorhandenem Benutzerkonto anmelden</b:Label>
+					<b:Label addStyleNames="login" ui:field="loginUserLabel" visible="false">Oder mit bereits vorhandenem Benutzerkonto anmelden</b:Label>
 				</bh:Div>
 			</bh:Div>
 
 			<bh:Div addStyleNames="distance">
 				<b:ButtonGroup ui:field="difficultyButtonGroup" addStyleNames="{style.radioButtonGroup}" />
 			</bh:Div>
+			
+			<bh:Div addStyleNames="distance">
+				
+			</bh:Div>
 
 			<bh:Div addStyleNames="distance">
-				<b:Button ui:field="sendButton" addStyleNames="button" text="{lang.send}"/>
+				<b:Button ui:field="singleplayer" addStyleNames="button" text="{lang.singleplayer}"/>
+				<b:Button ui:field="multiplayer" addStyleNames="button" text="{lang.multiplayer}"/>
 			</bh:Div>
 		</bh:Div>
 				<bh:Div addStyleNames="spinner center" ui:field="spinner" visible="false">

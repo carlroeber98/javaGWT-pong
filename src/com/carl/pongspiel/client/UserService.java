@@ -1,6 +1,6 @@
 package com.carl.pongspiel.client;
 
-import com.carl.pongspiel.shared.model.UserPoints;
+import com.carl.pongspiel.shared.model.PlayerPoints;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -30,5 +30,5 @@ public interface UserService extends RemoteService {
 	
 	Integer getUserHighscore(String username) ;
 	
-	Boolean setNewHighscore(UserPoints playerType);
+	Boolean setNewHighscore(PlayerPoints playerType);
 }

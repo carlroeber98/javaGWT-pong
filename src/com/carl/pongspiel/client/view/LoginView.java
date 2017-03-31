@@ -15,6 +15,8 @@ public interface LoginView {
 
 		void onLoadingFinished();
 
+		void setSinglePlayer(boolean bool);
+
 	}
 
 	void setPresenter(LoginPresenter presenter);
@@ -28,5 +30,7 @@ public interface LoginView {
 	Difficulty getDifficulty();
 
 	void loadingPage();
-	
+
+	void setLoginComponentSize();
+
 }

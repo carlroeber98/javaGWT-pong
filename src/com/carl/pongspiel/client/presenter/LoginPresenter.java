@@ -3,10 +3,13 @@ package com.carl.pongspiel.client.presenter;
 import com.carl.pongspiel.client.AppController;
 import com.carl.pongspiel.client.UserService;
 import com.carl.pongspiel.client.view.LoginView;
+import com.carl.pongspiel.shared.model.PlayerPoints;
 import com.carl.pongspiel.shared.model.PlayerType;
-import com.carl.pongspiel.shared.model.UserPoints;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -33,14 +36,22 @@ public class LoginPresenter implements LoginView.Presenter {
 	public void go(RootPanel container) {
 		container.clear();
 		container.add(loginView.asWidget());
+		loginView.setLoginComponentSize();
+		Window.addResizeHandler(new ResizeHandler() {
+			@Override
+			public void onResize(ResizeEvent event) {
+				loginView.setLoginComponentSize();
+			}
+		});
 	}
 	
 	/**
 	 * Variables
 	 */
 	private boolean booleanOut;
-	private UserPoints pointsPlayer = new UserPoints(0, PlayerType.PLAYER);
-	UserPoints pointsBot = new UserPoints(0, PlayerType.BOT);
+	private PlayerPoints pointsPlayer1 = new PlayerPoints(0, PlayerType.PLAYER);
+	//private PlayerPoints pointsPlayer2;
+	boolean singlePlayer = true;
 
 	/**
 	 * ->check the username in Database
@@ -159,7 +170,7 @@ public class LoginPresenter implements LoginView.Presenter {
 					@Override
 					public void onSuccess(Boolean result) {
 						if (result) {
-							pointsPlayer.setUsername(username);
+							pointsPlayer1.setUsername(username);
 							getUserHighscore(username);
 						} 
 						else {
@@ -185,15 +196,21 @@ public class LoginPresenter implements LoginView.Presenter {
 		UserService.Util.getInstance().getUserHighscore(username, new AsyncCallback<Integer>() {
 			@Override
 			public void onFailure(Throwable caught) {
-				appController.showWarning("Wilkommen " + pointsPlayer.getUsername() + ". Kein Highscore vorhanden.");
-				loginView.loadingPage();
+				appController.showWarning("Wilkommen " + pointsPlayer1.getUsername() + ". Kein Highscore vorhanden.");
+				if (singlePlayer)
+					loginView.loadingPage();
+//				else
+//					loginView.secondPlayer();
 			}
 
 			@Override
 			public void onSuccess(Integer result) {
-				pointsPlayer.setHighscrore(result);
-				appController.showSuccess("Wilkommen " + pointsPlayer.getUsername() + ". Aktueller Highscore " + pointsPlayer.getHighscrore() + ".");
-				loginView.loadingPage();
+				pointsPlayer1.setHighscrore(result);
+				appController.showSuccess("Wilkommen " + pointsPlayer1.getUsername() + ". Aktueller Highscore " + pointsPlayer1.getHighscrore() + ".");
+				if (singlePlayer)
+					loginView.loadingPage();
+//				else
+//					loginView.secondPlayer();
 			}
 		});
 	}
@@ -201,7 +218,9 @@ public class LoginPresenter implements LoginView.Presenter {
 	public void onLoadingFinished(){
 		appController.buildGamePong(loginView.getDifficulty());
 	}
-
-
+	
+	public void setSinglePlayer(boolean bool){
+		singlePlayer = bool;
+	}
 	
 }

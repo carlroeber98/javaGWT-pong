@@ -71,28 +71,18 @@ public class AppController implements EntryPoint {
 	public GamePreferences getGamePreferences() {
 		//Menü
 		GamePreferences gamePreferences = new GamePreferences();
-		gamePreferences.setGameFieldWidth(1024);
-		gamePreferences.setGameFieldHeight(512);
 		gamePreferences.setGameFieldBackgroundColor(Color.BLACK);
-		gamePreferences.setGameFieldBorder(8);
 		gamePreferences.setGameFieldBorderColor(Color.BLUE);
-		gamePreferences.setBallHeight(10);
-		gamePreferences.setBallWidth(10);
 		gamePreferences.setBallColor(Color.WHITE);
-		gamePreferences.setBatPlayer1PositionLeft(20);
-		gamePreferences.setBatPlayer1Height(100);
-		gamePreferences.setBatPlayer1Width(8);
-		gamePreferences.setBatPlayer1Color(Color.BLUE);
-		gamePreferences.setBatPlayer2PositionRight(15);
-		gamePreferences.setBatPlayer2Height(100);
-		gamePreferences.setBatPlayer2Width(8);
-		gamePreferences.setBatPlayer2Color(Color.GREEN);
+		gamePreferences.setBatPlayer1Color(Color.PURPLE);
+		gamePreferences.setBatPlayer2Color(Color.PURPLE);
 		gamePreferences.setLabelPointsColor(Color.WHITE);
 		gamePreferences.setButtonBackgroundColor(Color.WHITE);
-		gamePreferences.setButtonFontColor(Color.BLACK);
+		gamePreferences.setButtonFontColor(Color.PURPLE);
 		return gamePreferences;
 	}
 	
+
 	public void setNewView(boolean bool){
 		newView = bool;
 	}

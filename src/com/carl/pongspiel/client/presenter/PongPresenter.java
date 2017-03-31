@@ -7,8 +7,12 @@ import com.carl.pongspiel.client.UserService;
 import com.carl.pongspiel.client.ui.GamePreferences;
 import com.carl.pongspiel.client.view.PongView;
 import com.carl.pongspiel.shared.model.PlayerType;
-import com.carl.pongspiel.shared.model.UserPoints;
+import com.carl.pongspiel.shared.Languages;
+import com.carl.pongspiel.shared.model.PlayerPoints;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -33,13 +37,22 @@ public class PongPresenter implements PongView.Presenter {
 	public void go(RootPanel container) {
 		container.clear();
 		container.add(pongView.asWidget());
+		Window.addResizeHandler(new ResizeHandler() {
+			
+			@Override
+			public void onResize(ResizeEvent event) {
+				pongView.timerCancel();
+				pongView.setBreakButton(Languages.continue2());
+				getNewGameComponetSize();
+			}
+		});
 	}
 
 	/**
 	 * Variables
 	 */
-	UserPoints pointsPlayer = new UserPoints(0, PlayerType.PLAYER);
-	UserPoints pointsBot = new UserPoints(0, PlayerType.BOT);
+	PlayerPoints pointsPlayer = new PlayerPoints(0, PlayerType.PLAYER);
+	PlayerPoints pointsBot = new PlayerPoints(0, PlayerType.BOT);
 	int randomXDirection;
 	int	randomYDirection; 
 	int ballSpeed;
@@ -52,6 +65,7 @@ public class PongPresenter implements PongView.Presenter {
 		pongView.addKeyHandlers();
 		ballSpeed = gamePreferences.getDifficulty().getballSpeed();
 		pongView.setbatSpeed( gamePreferences.getDifficulty().getbatSpeed());
+		gamePreferences = getGameComponetsSize(gamePreferences);
 		pongView.buildGameField(gamePreferences);
 	}
 	
@@ -60,6 +74,7 @@ public class PongPresenter implements PongView.Presenter {
 	 */
 	public void startGame() {
 		pongView.setStartButtonVisible(false);
+		pongView.setBreakButton(Languages.pause());
 		pongView.setBreakButtonVisible(true);
 		
 		while (randomXDirection == 0 && randomYDirection == 0 || randomXDirection == 0)
@@ -126,7 +141,7 @@ public class PongPresenter implements PongView.Presenter {
 		return Result;
 	}
 
-	private void saveHighscore(UserPoints playerType) {
+	private void saveHighscore(PlayerPoints playerType) {
 		UserService.Util.getInstance().setNewHighscore(playerType, new AsyncCallback<Boolean>() {
 
 			@Override
@@ -151,6 +166,33 @@ public class PongPresenter implements PongView.Presenter {
 	public void logout() {
 		appController.setNewView(true);
 		appController.initLoginView();
+	}
+	
+	public void getNewGameComponetSize(){
+		GamePreferences gamePreferences = getGameComponetsSize(new GamePreferences());
+		pongView.rebuildGameField(gamePreferences);
+	}
+	
+	public GamePreferences getGameComponetsSize(GamePreferences gamePreferences) {
+		int windowWidth  = Window.getClientWidth();
+		int windowHeight = Window.getClientHeight();
+		int border = 8;
+		if (windowHeight < 500 || windowWidth < 1000)
+			 border = 4;
+		gamePreferences.setGameFieldWidth(windowWidth / 2);
+		gamePreferences.setGameFieldHeight(windowHeight / 2);
+		gamePreferences.setGameFieldBorder(border);
+		gamePreferences.setBallHeight(windowWidth / 150);
+		gamePreferences.setBallWidth(windowWidth / 150);
+		gamePreferences.setBatPlayer1PositionLeft(15);
+		gamePreferences.setBatPlayer1Height(windowHeight / 8);
+		gamePreferences.setBatPlayer1Width(border);
+		gamePreferences.setBatPlayer2PositionRight(15);
+		gamePreferences.setBatPlayer2Height(windowHeight / 8);
+		gamePreferences.setBatPlayer2Width(border);
+		gamePreferences.setLabelPointsSize(windowWidth / 14 + windowHeight / 14);
+		gamePreferences.setButtonSize(windowWidth / 100 + windowHeight / 100);
+		return gamePreferences;
 	}
 	
 }

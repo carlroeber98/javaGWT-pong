@@ -5,12 +5,15 @@ import java.util.List;
 
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.ButtonGroup;
+import org.gwtbootstrap3.client.ui.Image;
+import org.gwtbootstrap3.client.ui.Input;
 import org.gwtbootstrap3.client.ui.Label;
 import org.gwtbootstrap3.client.ui.RadioButton;
 
 import com.carl.pongspiel.client.model.Difficulty;
 import com.carl.pongspiel.client.presenter.LoginPresenter;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -21,7 +24,6 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
 public class LoginViewImpl extends Composite implements LoginView {
@@ -49,16 +51,19 @@ public class LoginViewImpl extends Composite implements LoginView {
 	}
 	
 	@UiField
-	HasText usernameField;
+	Input usernameField;
 
 	@UiField
-	HasText passwordField;
+	Input passwordField;
 	
 	@UiField
-	HasText passwordConfirmField;
+	Input passwordConfirmField;
 
 	@UiField
-	Button sendButton;
+	Button singleplayer;
+	
+	@UiField
+	Button multiplayer;
 	
 	@UiField
 	Widget loginDiv;
@@ -70,13 +75,16 @@ public class LoginViewImpl extends Composite implements LoginView {
 	Label newUserLabel;
 	
 	@UiField
-	Label LoginUserLabel;
+	Label loginUserLabel;
 	
 	@UiField
 	ButtonGroup difficultyButtonGroup;
 	
 	@UiField
 	Widget spinner;
+	
+	@UiField
+	Image pongImage;
 	
 	private List<RadioButton> difficultyRadioButtons = new ArrayList<RadioButton>();
 	
@@ -94,8 +102,20 @@ public class LoginViewImpl extends Composite implements LoginView {
 		}
 	}
 
-	@UiHandler("sendButton")
-	public void onSendButtonClicked(ClickEvent e) {
+	@UiHandler("singleplayer")
+	public void onsingleplayerButtonClicked(ClickEvent e) {
+		presenter.setSinglePlayer(true);
+		if (passwordConfirmFieldDiv.isVisible()){
+			presenter.createNewUser(usernameField.getText(), passwordField.getText(), passwordConfirmField.getText());
+		}
+		else{
+			presenter.checkUserAcc(usernameField.getText(), passwordField.getText());
+		}
+	}
+	
+	@UiHandler("multiplayer")
+	public void onmultiplayerButtonClicked(ClickEvent e) {
+		presenter.setSinglePlayer(false);
 		if (passwordConfirmFieldDiv.isVisible()){
 			presenter.createNewUser(usernameField.getText(), passwordField.getText(), passwordConfirmField.getText());
 		}
@@ -128,17 +148,17 @@ public class LoginViewImpl extends Composite implements LoginView {
 		}
 	}
 	
-	@UiHandler("usernameField")
-	void onUsernameInputKeyUp(KeyUpEvent event) {
-		if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER){
-			if (passwordConfirmFieldDiv.isVisible()){
-				presenter.createNewUser(usernameField.getText(), passwordField.getText(), passwordConfirmField.getText());
-			}
-			else{
-				presenter.checkUserAcc(usernameField.getText(), passwordField.getText());
-			}
-		}
-	}
+//	@UiHandler("usernameField")
+//	void onUsernameInputKeyUp(KeyUpEvent event) {
+//		if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER){
+//			if (passwordConfirmFieldDiv.isVisible()){
+//				presenter.createNewUser(usernameField.getText(), passwordField.getText(), passwordConfirmField.getText());
+//			}
+//			else{
+//				presenter.checkUserAcc(usernameField.getText(), passwordField.getText());
+//			}
+//		}
+//	}
 	
 	@UiHandler("newUserLabel")
 	void onNewUserLabelClick(ClickEvent e) {
@@ -147,18 +167,18 @@ public class LoginViewImpl extends Composite implements LoginView {
 	
 	public void newUserLayout(){
 		newUserLabel.setVisible(false);
-		LoginUserLabel.setVisible(true);
+		loginUserLabel.setVisible(true);
 		passwordConfirmFieldDiv.setVisible(true);
 	}
 	
-	@UiHandler("LoginUserLabel")
+	@UiHandler("loginUserLabel")
 	void onLoginUserLabelClick(ClickEvent e) {
 		loginUserLabel();
 	}
 	
 	public void loginUserLabel(){
 		newUserLabel.setVisible(true);
-		LoginUserLabel.setVisible(false);
+		loginUserLabel.setVisible(false);
 		passwordConfirmFieldDiv.setVisible(false);
 	}
 	
@@ -192,8 +212,25 @@ public class LoginViewImpl extends Composite implements LoginView {
 	}
 
 	private void initClickable() {
-		sendButton.getElement().addClassName("clickable");
+		singleplayer.getElement().addClassName("clickable");
+		multiplayer.getElement().addClassName("clickable");
 		newUserLabel.getElement().addClassName("clickable");
+		loginUserLabel.getElement().addClassName("clickable");
+	}
+
+	public void setLoginComponentSize() {
+		int windowWidth  = Window.getClientWidth();
+		int windowHeight = Window.getClientHeight();
+		pongImage.getElement().getStyle().setWidth(windowWidth / 8 + windowHeight / 8, Unit.PX);
+		pongImage.getElement().getStyle().setHeight(windowWidth / 8 + windowHeight / 8, Unit.PX);
+		singleplayer.getElement().getStyle().setFontSize(windowWidth / 100 + windowHeight / 100, Unit.PX);
+		multiplayer.getElement().getStyle().setFontSize(windowWidth / 100 + windowHeight / 100, Unit.PX);
+		newUserLabel.getElement().getStyle().setFontSize(windowWidth / 100 + windowHeight / 100, Unit.PX);
+		loginUserLabel.getElement().getStyle().setFontSize(windowWidth / 100 + windowHeight / 100, Unit.PX);
+		usernameField.getElement().getStyle().setFontSize(windowWidth / 140 + windowHeight / 140, Unit.PX);
+		passwordConfirmField.getElement().getStyle().setFontSize(windowWidth / 140 + windowHeight / 140, Unit.PX);
+		passwordField.getElement().getStyle().setFontSize(windowWidth / 140 + windowHeight / 140, Unit.PX);
+		difficultyButtonGroup.getElement().getStyle().setFontSize(windowWidth / 140 + windowHeight / 140, Unit.PX);
 	}
 	
 }
