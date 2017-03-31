@@ -42,4 +42,10 @@ public interface PongView {
 
 	void setBreakButtonVisible(boolean visible);
 
+	void rebuildGameField(GamePreferences gamePreferences);
+
+	void timerCancel();
+
+	void setBreakButton(String text);
+
 }

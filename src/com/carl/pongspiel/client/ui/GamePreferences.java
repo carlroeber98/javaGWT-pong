@@ -24,6 +24,9 @@ public class GamePreferences {
 	private int ballHeight;
 	private Color ballColor;
 	private Difficulty difficulty;
+	private int labelPointsSize;
+	private int buttonSize;
+	private int labelSize;
 	
 	public int getGameFieldWidth() {
 		return gameFieldWidth;
@@ -144,5 +147,23 @@ public class GamePreferences {
 	}
 	public void setButtonFontColor(Color buttonFontColor) {
 		this.buttonFontColor = buttonFontColor;
+	}
+	public int getLabelPointsSize() {
+		return labelPointsSize;
+	}
+	public void setLabelPointsSize(int labelPointsSize) {
+		this.labelPointsSize = labelPointsSize;
+	}
+	public int getButtonSize() {
+		return buttonSize;
+	}
+	public void setButtonSize(int buttonSize) {
+		this.buttonSize = buttonSize;
+	}
+	public int getLabelSize() {
+		return labelSize;
+	}
+	public void setLabelSize(int labelSize) {
+		this.labelSize = labelSize;
 	}
 }

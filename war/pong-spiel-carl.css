@@ -29,6 +29,10 @@
 	cursor: pointer;
 }
 
+.margin-top-20 {
+	margin-top:20;
+}
+
 .newUser {
 	font-weight: bold;
 	font-size: x-large;

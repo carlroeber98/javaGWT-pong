@@ -17,9 +17,7 @@
 		width: 10px;
 		height: 10px;
 		background: #FFFFFF;
-		-moz-border-radius: 5px;
-		-webkit-border-radius: 5px;
-		border-radius: 5px;
+		border-radius: 100px;
 		position: absolute;
 	}
 	
@@ -36,19 +34,24 @@
 		width: 8px;
 		position: absolute;
 	}
-	
+	.center {
+		text-align: center;
+	}
 	</ui:style>
+
 	<bh:Div>
-		<bh:Div ui:field="game" addStyleNames="center" >
+		<bh:Div ui:field="game" addStyleNames="{style.center}" >
 			<b:Label addStyleNames="points" ui:field="pointsLabel">0 : 0</b:Label>
-			<bh:Div ui:field="gameField" addStyleNames="{style.squareborder} relative">
+			<bh:Div ui:field="gameField" addStyleNames="{style.squareborder} relative  margin-top-20">
 				<bh:Div ui:field="batPlayer" addStyleNames="{style.schlaeger-player}" />
 				<bh:Div ui:field="ball" addStyleNames="{style.ball}" />
 				<bh:Div ui:field="batBot" addStyleNames="{style.schlaeger-bot}" />
 			</bh:Div>
-			<b:Button ui:field="breakButton" visible="false" addStyleNames="button" text="{lang.pause}" />
-			<b:Button ui:field="startButton" addStyleNames="button" text="{lang.start}" />
-			<b:Button ui:field="logoutButton" addStyleNames="button" text="Logout" />
+			<bh:Div addStyleNames="margin-top-20">
+				<b:Button ui:field="breakButton" visible="false" addStyleNames="button" text="{lang.pause}" />
+				<b:Button ui:field="startButton" addStyleNames="button" text="{lang.start}" />
+				<b:Button ui:field="logoutButton" addStyleNames="button" text="Logout" />
+			</bh:Div>
 		</bh:Div>
 	</bh:Div>
 </ui:UiBinder>
